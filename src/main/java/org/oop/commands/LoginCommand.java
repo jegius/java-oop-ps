@@ -2,6 +2,7 @@ package org.oop.commands;
 
 import org.oop.api.IAuthService;
 import org.oop.api.ICommand;
+import org.oop.commands.menu.BaseCommand;
 import org.oop.commands.menu.MainMenu;
 import org.oop.di.Injector;
 

@@ -1,4 +1,4 @@
-package org.oop.commands;
+package org.oop.commands.menu;
 
 import org.oop.api.ICommand;
 import org.oop.api.IOService;
