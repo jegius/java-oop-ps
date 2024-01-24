@@ -39,7 +39,13 @@ public class DatabaseService implements IDatabaseService {
                             "user_id INTEGER," +
                             "comment_text TEXT NOT NULL," +
                             "FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE," +
-                            "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE);"
+                            "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE);" +
+
+                            "INSERT INTO users (username, password, email, role) " +
+                            "SELECT 'admin', '$2a$10$ELqr66UvJgnkkN9e6hrYGO.brljJ//Y2MTpMpVfhdmgEUB0wmS2cC', 'admin@example.com', 'ADMIN' " +
+                            "WHERE NOT EXISTS (" +
+                            "SELECT * FROM users WHERE username = 'admin'" +
+                            ");"
             };
             String url = configService.getProperty("database.url");
             String user = configService.getProperty("database.user");
