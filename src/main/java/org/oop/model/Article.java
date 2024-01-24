@@ -1,30 +1,55 @@
 package org.oop.model;
 
 public class Article {
-    private int id;
-    private final String title;
-    private final String content;
+    private Long id;
+    private String title;
+    private String content;
+    private Long authorId;
 
-    public Article(int id, String title, String content) {
+    // Конструктор по умолчанию
+    public Article() {
+    }
+
+    // Конструктор с параметрами
+    public Article(Long id, String title, String content, Long authorId) {
+        this.id = id;
         this.title = title;
         this.content = content;
-        this.id = id;
+        this.authorId = authorId;
+    }
+
+    // Геттеры
+    public Long getId() {
+        return this.id;
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
-    public int getId() {
-        return id;
+    public Long getAuthorId() {
+        return this.authorId;
     }
 
-    public void setId(int id) {
+    // Сеттеры
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
 
     @Override

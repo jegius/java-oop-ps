@@ -40,6 +40,11 @@ public class AuthService implements IAuthService {
     }
 
     @Override
+    public long getCurrentUserId() {
+        return loggedInUser != null ? loggedInUser.getId() : -1;
+    }
+
+    @Override
     public boolean logout() {
 
         if (isUserLoggedIn()) {

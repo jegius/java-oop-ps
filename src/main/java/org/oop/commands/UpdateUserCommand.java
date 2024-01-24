@@ -12,11 +12,9 @@ import java.util.List;
 
 public class UpdateUserCommand extends BaseCommand {
     private final IUserService userService;
-    private final IOService ioService;
 
     public UpdateUserCommand() {
         this.userService = Injector.getInstance().getService(IUserService.class);
-        this.ioService = Injector.getInstance().getService(IOService.class);
     }
 
     @Override

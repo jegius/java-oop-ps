@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 
 public abstract class BaseCommand implements ICommand {
     protected final Map<Integer, Supplier<ICommand>> commandSuppliers = new LinkedHashMap<>();
-    protected IOService consoleIOService;
+    protected IOService ioService;
     protected BaseCommand() {
-        this.consoleIOService = Injector.getInstance().getService(IOService.class);
+        this.ioService = Injector.getInstance().getService(IOService.class);
     }
 
-    protected Map<Integer, String> getMainMenuItems() {
+    protected Map<Integer, String> getMenuItems() {
         return commandSuppliers.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
@@ -27,5 +27,16 @@ public abstract class BaseCommand implements ICommand {
                         (existing, replacement) -> existing,
                         LinkedHashMap::new
                 ));
+    }
+
+    protected ICommand selectMenu() {
+        Map<Integer, String> menuItems = getMenuItems();
+        ioService.printMenu(getDescription(), menuItems);
+        int selectedMenuItem = ioService.promptForMenuSelection(menuItems, "Выберите опцию и нажмите Enter:");
+
+        return commandSuppliers.getOrDefault(selectedMenuItem, () -> {
+            ioService.printLine("Неверный номер опции");
+            return this;
+        }).get();
     }
 }

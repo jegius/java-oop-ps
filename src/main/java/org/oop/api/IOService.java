@@ -1,5 +1,8 @@
 package org.oop.api;
 
+import org.oop.model.Article;
+
+import java.util.List;
 import java.util.Map;
 
 public interface IOService {
@@ -7,6 +10,8 @@ public interface IOService {
     void printLine(String line);
     void close();
     void printUserTableHeader();
+
+    void printArticles(List<Article> articles,  IArticleService articleService);
 
     void printMenu(String title, Map<Integer, String> items);
     void printPromt(String promptMessage);

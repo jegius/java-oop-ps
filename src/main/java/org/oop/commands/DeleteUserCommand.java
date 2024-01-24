@@ -1,7 +1,6 @@
 package org.oop.commands;
 
 import org.oop.api.IAuthService;
-import org.oop.api.IOService;
 import org.oop.api.IUserService;
 import org.oop.api.ICommand;
 import org.oop.commands.menu.UserMenu;
@@ -12,12 +11,10 @@ import java.util.Optional;
 
 public class DeleteUserCommand extends BaseCommand {
     private final IUserService userService;
-    private final IOService ioService;
     private final IAuthService authService;
 
     public DeleteUserCommand() {
         this.userService = Injector.getInstance().getService(IUserService.class);
-        this.ioService = Injector.getInstance().getService(IOService.class);
         this.authService = Injector.getInstance().getService(IAuthService.class);
     }
 

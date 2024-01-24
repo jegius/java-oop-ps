@@ -11,11 +11,9 @@ import java.util.List;
 
 public class ShowAllUsersCommand extends BaseCommand {
     private final IUserService userService;
-    private final IOService ioService;
 
     public ShowAllUsersCommand() {
         this.userService = Injector.getInstance().getService(IUserService.class);
-        this.ioService = Injector.getInstance().getService(IOService.class);
     }
 
     @Override

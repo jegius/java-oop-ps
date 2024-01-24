@@ -11,12 +11,13 @@ public class ArticleDao extends Dao implements IArticleDao {
 
     @Override
     public Article createArticle(Article article) {
-        String query = "INSERT INTO articles (title, content) VALUES (?, ?)";
+        String query = "INSERT INTO articles (title, content, author_id) VALUES (?, ?, ?)";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, article.getTitle());
             preparedStatement.setString(2, article.getContent());
+            preparedStatement.setLong(3, article.getAuthorId());
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -25,7 +26,7 @@ public class ArticleDao extends Dao implements IArticleDao {
 
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    article.setId(generatedKeys.getInt(1));
+                    article.setId(generatedKeys.getLong(1));
                 } else {
                     throw new SQLException("Creating article failed, no ID obtained.");
                 }
@@ -39,18 +40,19 @@ public class ArticleDao extends Dao implements IArticleDao {
     }
 
     @Override
-    public Article getArticleById(int id) {
-        String query = "SELECT id, title, content FROM articles WHERE id = ?";
+    public Article getArticleById(long id) {
+        String query = "SELECT id, title, content, author_id FROM articles WHERE id = ?";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return new Article(
-                            resultSet.getInt("id"),
+                            resultSet.getLong("id"),
                             resultSet.getString("title"),
-                            resultSet.getString("content")
+                            resultSet.getString("content"),
+                            resultSet.getLong("author_id")
                     );
                 }
             }
@@ -63,7 +65,7 @@ public class ArticleDao extends Dao implements IArticleDao {
     @Override
     public List<Article> getArticlesByTitle(String title) {
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT id, title, content FROM articles WHERE title LIKE ?";
+        String query = "SELECT id, title, content, author_id FROM articles WHERE title LIKE ?";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -71,9 +73,10 @@ public class ArticleDao extends Dao implements IArticleDao {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     articles.add(new Article(
-                            resultSet.getInt("id"),
+                            resultSet.getLong("id"),
                             resultSet.getString("title"),
-                            resultSet.getString("content")
+                            resultSet.getString("content"),
+                            resultSet.getLong("author_id")
                     ));
                 }
             }
@@ -86,16 +89,18 @@ public class ArticleDao extends Dao implements IArticleDao {
     @Override
     public List<Article> getAllArticles() {
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT id, title, content FROM articles";
+        String query = "SELECT id, title, content, author_id FROM articles";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 Article article = new Article(
-                        resultSet.getInt("id"),
+                        resultSet.getLong("id"),
                         resultSet.getString("title"),
-                        resultSet.getString("content")
+                        resultSet.getString("content"),
+                        resultSet.getLong("author_id")
+
                 );
                 articles.add(article);
             }
@@ -107,13 +112,14 @@ public class ArticleDao extends Dao implements IArticleDao {
 
     @Override
     public boolean updateArticle(Article article) {
-        String query = "UPDATE articles SET title = ?, content = ? WHERE id = ?";
+        String query = "UPDATE articles SET title = ?, content = ?, author_id = ?, WHERE id = ?";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, article.getTitle());
             preparedStatement.setString(2, article.getContent());
-            preparedStatement.setInt(3, article.getId());
+            preparedStatement.setLong(3, article.getId());
+            preparedStatement.setLong(4, article.getAuthorId());
 
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
@@ -124,12 +130,12 @@ public class ArticleDao extends Dao implements IArticleDao {
     }
 
     @Override
-    public boolean deleteArticle(int id) {
+    public boolean deleteArticle(long id) {
         String query = "DELETE FROM articles WHERE id = ?";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {

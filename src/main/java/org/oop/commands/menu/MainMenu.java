@@ -5,7 +5,6 @@ import org.oop.api.ICommand;
 import org.oop.commands.*;
 import org.oop.di.Injector;
 
-import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainMenu extends BaseCommand {
@@ -38,14 +37,7 @@ public class MainMenu extends BaseCommand {
 
     @Override
     public ICommand execute() {
-        Map<Integer, String> menuItems = getMainMenuItems();
-        consoleIOService.printMenu(getDescription(), menuItems);
-        int selectedMenuItem = consoleIOService.promptForMenuSelection(menuItems, "Выберите опцию и нажмите Enter:");
-
-        return commandSuppliers.getOrDefault(selectedMenuItem, () -> {
-            consoleIOService.printLine("Неверный номер опции");
-            return this;
-        }).get();
+        return selectMenu();
     }
 
     @Override

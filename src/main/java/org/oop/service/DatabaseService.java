@@ -29,7 +29,9 @@ public class DatabaseService implements IDatabaseService {
                     "CREATE TABLE IF NOT EXISTS articles (" +
                             "id SERIAL PRIMARY KEY," +
                             "title VARCHAR(255) NOT NULL," +
-                            "content TEXT NOT NULL);",
+                            "content TEXT NOT NULL," +
+                            "author_id INTEGER," +
+                            "FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE);",
 
                     "CREATE TABLE IF NOT EXISTS comments (" +
                             "id SERIAL PRIMARY KEY," +

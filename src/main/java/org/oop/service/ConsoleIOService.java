@@ -1,6 +1,10 @@
 package org.oop.service;
 
+import org.oop.api.IArticleService;
+import org.oop.api.IAuthService;
 import org.oop.api.IOService;
+import org.oop.di.Injector;
+import org.oop.model.Article;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,6 +15,7 @@ public class ConsoleIOService implements IOService {
     private final Scanner scanner;
 
     public ConsoleIOService() {
+
         this.scanner = new Scanner(System.in);
     }
 
@@ -49,6 +54,28 @@ public class ConsoleIOService implements IOService {
         printLine("| ID         | Username             | Email                          | Role       |");
         printLine("+------------+----------------------+--------------------------------+------------+");
     }
+
+    @Override
+    public void printArticles(List<Article> articles, IArticleService articleService) {
+        for (Article article : articles) {
+            printLine(article.getId() + ": " + article.getTitle());
+        }
+
+        try {
+            long articleId = Long.parseLong(prompt("Введите ID статьи, которую вы хотите прочитать: "));
+
+            Article selectedArticle = articleService.getArticleById(articleId);
+
+            if (selectedArticle != null) {
+                printLine(selectedArticle.toString());
+            } else {
+                printLine("Статьи с ID " + articleId + " не существует.");
+            }
+        } catch (NumberFormatException e) {
+            printLine("Некорректный ввод ID статьи. Пожалуйста, введите числовой ID.");
+        }
+    }
+
     public int promptForMenuSelection(Map<Integer, String> menuItems, String promptMessage) {
         int selection = -1;
         while (!menuItems.containsKey(selection)) {
