@@ -1,4 +1,4 @@
-package org.oop.model;
+package org.oop;
 
 public enum Role {
     ADMIN,
