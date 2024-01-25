@@ -7,7 +7,6 @@ import org.oop.di.Injector;
 
 public class App {
 
-    private final IDatabaseService databaseService;
     private static App instance;
 
     public static App getInstance() {
@@ -22,8 +21,8 @@ public class App {
     App() {
         this.command = new MainMenu();
 
-        this.databaseService = Injector.getInstance().getService(IDatabaseService.class);
-        this.databaseService.initializeDatabase();
+        IDatabaseService databaseService = Injector.getInstance().getService(IDatabaseService.class);
+        databaseService.initializeDatabase();
     }
 
     public void run() {
