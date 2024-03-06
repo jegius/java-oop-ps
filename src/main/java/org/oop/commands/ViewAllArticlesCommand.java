@@ -3,6 +3,7 @@ package org.oop.commands;
 import org.oop.api.IArticleService;
 import org.oop.api.ICommand;
 import org.oop.commands.menu.BaseCommand;
+import org.oop.commands.menu.CommentMenu;
 import org.oop.commands.menu.MainMenu;
 import org.oop.di.Injector;
 import org.oop.model.Article;
@@ -27,7 +28,7 @@ public class ViewAllArticlesCommand extends BaseCommand {
             ioService.printArticles(articles, Injector.getInstance().getService(IArticleService.class));
         }
 
-        return new MainMenu();
+        return new CommentMenu();
     }
 
     @Override

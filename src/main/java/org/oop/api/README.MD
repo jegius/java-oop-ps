@@ -63,5 +63,16 @@
 - `boolean updateUser(User user)` - метод обновляет данные пользователя.
 - `boolean changeUserRole(int userId, Role newRole)` - метод изменяет роль пользователя.
 
+## ICommentService
+
+### Методы
+- `Comment createComment(Long articleId, String content)` - метод создаёт комментарий к статье с указанным ID.
+- `List<Comment> getAllComments()` - метод возвращает список всех комментариев, сохранённых в базе данных.
+- `Comment getCommentById(long id)` - метод возвращает комментарий по его ID.
+- `List<Comment> getAllCommentsByAuthor(Long userId)` - метод возвращает возвращает список всех комментариев пользователя с указанным ID.
+- `List<Comment> getAllCommentsToArticle(Long articleId)` - метод возвращает возвращает список всех комментариев к статье с указанным ID.
+- `boolean deleteComment(long id)` - метод удаляет комментарий по идентификатору.
+- `boolean updateComment(long id, String content)` - метод обновляет данные комментария.
+
 ## Инструкции по применению
 Для использования интерфейсов необходимо создать их реализации в соответствии с бизнес-логикой приложения. Реализация должна учитывать всех требования к хранению, обработке и безопасности данных.

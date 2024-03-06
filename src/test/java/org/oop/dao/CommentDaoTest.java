@@ -13,6 +13,7 @@ public class CommentDaoTest extends TestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        mdb.cleanDatabase();
         mdb.initializeDatabase();
     }
 
